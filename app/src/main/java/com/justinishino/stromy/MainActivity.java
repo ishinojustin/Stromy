@@ -35,7 +35,7 @@ protected void onCreate(Bundle savedInstanceState) {
     double latitude = 37.8267;
     double longitude = -122.4233;
 
-    String forcastURL = "https://api.darksky.net/forecast/"
+    String forecastURL = "https://api.darksky.net/forecast/"
             + apiKey  + "/" + latitude + "," + longitude;
     
     if (isNetworkAvailable()) {
@@ -43,7 +43,7 @@ protected void onCreate(Bundle savedInstanceState) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url(forcastURL)
+                .url(forecastURL)
                 .build();
 
         Call call = client.newCall(request);
@@ -76,10 +76,10 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
     private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
-        JSONObject forcast = new JSONObject(jsonData);
+        JSONObject forecast = new JSONObject(jsonData);
 
-        String timezone = forcast.getString("timezone");
-        Log.i(TAG, "From JSON " + forcast);
+        String timezone = forecast.getString("timezone");
+        Log.i(TAG, "From JSON " + forecast);
         return null;
     }
 
