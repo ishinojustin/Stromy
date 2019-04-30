@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -19,6 +22,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 public static final String TAG = MainActivity.class.getSimpleName();
+
+private CurrentWeather currentWeather;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +56,32 @@ protected void onCreate(Bundle savedInstanceState) {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    Log.v(TAG, response.body().string());
+                    String jsonData = response.body().string();
+                    Log.v(TAG, jsonData);
                     if (response.isSuccessful()) {
+
+                        currentWeather = getCurrentDetails(jsonData);
                     } else {
                         alertUserAboutError();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "IO Exception caught: ", e);
+                } catch (JSONException e) {
+                    Log.e(TAG, "JSON Exception caught", e);
                 }
             }
         });
     }
     Log.d(TAG, "Main UI code is running, Hooray!");
 }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+        JSONObject forcast = new JSONObject(jsonData);
+
+        String timezone = forcast.getString("timezone");
+        Log.i(TAG, "From JSON " + forcast);
+        return null;
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
